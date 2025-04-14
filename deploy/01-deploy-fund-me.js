@@ -40,12 +40,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   // well what happens when we want to change chains?
   // when going for localhost or hardhat network we want to use a mock
-
+  console.log("network.config", network.config)
   const args = [priceFeedContractAddress]
   const deployResult = await deploy("FundMe", {
     from: deployer,
     args, // put constructor args here
     log: true,
+    waitConfirmations: network.config.blockConfirmations || 1,
   })
 
   if (chainId in networkConfig && process.env.ETHERSCAN_API_KEY) {
