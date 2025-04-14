@@ -2,6 +2,7 @@ const { network } = require("hardhat")
 // const helperConfig = require("../helper-hardhat-config")
 // const { networkConfig } = helperConfig
 const { networkConfig, deploymentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
 
 // function deployFunc(hre) {
 //   console.log("deploy~")
@@ -21,9 +22,9 @@ const { networkConfig, deploymentChains } = require("../helper-hardhat-config")
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log, get } = deployments
   const { deployer } = await getNamedAccounts()
-  console.log("🚀 ~ module.exports= ~ deployer:", deployer)
+  log("🚀 ~ module.exports= ~ deployer:", deployer)
   const chainId = network.config.chainId
-  console.log("🚀 ~ module.exports= ~ chainId:", chainId)
+  log("🚀 ~ module.exports= ~ chainId:", chainId)
 
   // if chainId is X use address Y
   // if chainId is Z use address A
@@ -40,11 +41,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   // well what happens when we want to change chains?
   // when going for localhost or hardhat network we want to use a mock
 
-  await deploy("FundMe", {
+  const args = [priceFeedContractAddress]
+  const deployResult = await deploy("FundMe", {
     from: deployer,
-    args: [priceFeedContractAddress], // put constructor args here
+    args, // put constructor args here
     log: true,
   })
+
+  if (chainId in networkConfig && process.env.ETHERSCAN_API_KEY) {
+    // verify
+    await verify(deployResult.address, args)
+  }
+  log("----------------------------------------------------")
 }
 
 module.exports.tags = ["fundme"]
