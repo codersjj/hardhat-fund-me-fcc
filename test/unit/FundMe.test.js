@@ -35,9 +35,9 @@ describe("FundMe", function () {
 
   describe("constructor", function () {
     it("sets the aggregator addresses correctly", async () => {
-      const s_priceFeed = await fundMe.s_priceFeed()
-      // console.log("🚀 ~ it ~ s_priceFeed:", s_priceFeed)
-      assert.equal(s_priceFeed, mockV3Aggregator.target)
+      const getPriceFeed = await fundMe.getPriceFeed()
+      // console.log("🚀 ~ it ~ getPriceFeed:", getPriceFeed)
+      assert.equal(getPriceFeed, mockV3Aggregator.target)
     })
   })
 
@@ -51,13 +51,13 @@ describe("FundMe", function () {
 
     it("update the amount funded data structure", async () => {
       await fundMe.fund({ value: sendValue })
-      const amountFunded = await fundMe.s_addressToAmountFunded(deployer)
+      const amountFunded = await fundMe.getAddressToAmountFunded(deployer)
       assert.equal(amountFunded, sendValue)
     })
 
-    it("Adds funder to array of s_funders", async () => {
+    it("Adds funder to array of getFunders", async () => {
       await fundMe.fund({ value: sendValue })
-      const funder = await fundMe.s_funders(0)
+      const funder = await fundMe.getFunders(0)
       assert.equal(funder, deployer)
     })
   })
@@ -109,7 +109,7 @@ describe("FundMe", function () {
       )
     })
 
-    it("allows us to withdraw with multiple s_funders", async () => {
+    it("allows us to withdraw with multiple getFunders", async () => {
       // Arrange
       const accounts = await ethers.getSigners()
       // i = 0 is deployer, so we start at 1
@@ -140,13 +140,13 @@ describe("FundMe", function () {
         startingDeployerBalance + startingFundMeBalance
       )
 
-      // Make sure that the s_funders are reset properly
-      await expect(fundMe.s_funders(0)).to.be.reverted
+      // Make sure that the getFunders are reset properly
+      await expect(fundMe.getFunders(0)).to.be.reverted
       for (let i = 0; i < 6; i++) {
-        // const amount = await fundMe.s_addressToAmountFunded(accounts[i].address)
+        // const amount = await fundMe.getAddressToAmountFunded(accounts[i].address)
         // assert.equal(amount, 0)
         assert.equal(
-          await fundMe.s_addressToAmountFunded(accounts[i].address),
+          await fundMe.getAddressToAmountFunded(accounts[i].address),
           0
         )
       }
@@ -198,7 +198,7 @@ describe("FundMe", function () {
       )
     })
 
-    it("cheaperWithdraw ~ allows us to withdraw with multiple s_funders", async () => {
+    it("cheaperWithdraw ~ allows us to withdraw with multiple getFunders", async () => {
       // Arrange
       const accounts = await ethers.getSigners()
       // i = 0 is deployer, so we start at 1
@@ -229,13 +229,13 @@ describe("FundMe", function () {
         startingDeployerBalance + startingFundMeBalance
       )
 
-      // Make sure that the s_funders are reset properly
-      await expect(fundMe.s_funders(0)).to.be.reverted
+      // Make sure that the getFunders are reset properly
+      await expect(fundMe.getFunders(0)).to.be.reverted
       for (let i = 0; i < 6; i++) {
-        // const amount = await fundMe.s_addressToAmountFunded(accounts[i].address)
+        // const amount = await fundMe.getAddressToAmountFunded(accounts[i].address)
         // assert.equal(amount, 0)
         assert.equal(
-          await fundMe.s_addressToAmountFunded(accounts[i].address),
+          await fundMe.getAddressToAmountFunded(accounts[i].address),
           0
         )
       }
