@@ -40,7 +40,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   // well what happens when we want to change chains?
   // when going for localhost or hardhat network we want to use a mock
-  console.log("network.config", network.config)
+  console.log("---01-deploy-fund-me ~ start deploying FundMe contract")
+  // console.log("network.config", network.config)
   const args = [priceFeedContractAddress]
   const deployResult = await deploy("FundMe", {
     from: deployer,
@@ -56,4 +57,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   log("----------------------------------------------------")
 }
 
-module.exports.tags = ["fundme"]
+module.exports.tags = ["all", "fundme"]

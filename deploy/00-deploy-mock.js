@@ -16,6 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     return
   }
 
+  console.log("---00-deploy-mock ~ Local network detected!")
   log("Local network detected! Deploying mocks...")
   await deploy("MockV3Aggregator", {
     contract: "MockV3Aggregator",
@@ -27,4 +28,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   log("----------------------------------------------------")
 }
 
-module.exports.tags = ["mocks"]
+module.exports.tags = ["all", "mocks"]
