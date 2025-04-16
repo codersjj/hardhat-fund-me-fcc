@@ -28,6 +28,7 @@ pragma solidity ^0.8.8;
 // Imports
 import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import "./PriceConverter.sol";
+import "hardhat/console.sol"; // for debugging
 
 // Events
 
@@ -90,6 +91,7 @@ contract FundMe {
     */
     constructor(address priceFeedContractAddress) {
         i_owner = msg.sender;
+        console.log("====== from FundMe.sol ====== msg.sender: ", msg.sender);
         priceFeed = AggregatorV3Interface(priceFeedContractAddress);
     }
 
@@ -112,6 +114,7 @@ contract FundMe {
     function fund() public payable {
         require(msg.value.getConversionRate(priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
         // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
+        console.log("====== from FundMe.sol ====== sender %s funded %s wei", msg.sender, msg.value);
         addressToAmountFunded[msg.sender] += msg.value;
         funders.push(msg.sender);
     }
