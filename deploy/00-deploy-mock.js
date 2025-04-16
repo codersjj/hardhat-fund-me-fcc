@@ -2,7 +2,7 @@
 
 const { network } = require("hardhat")
 const {
-  deploymentChains,
+  developmentChains,
   DECIMALS,
   INITIAL_ANSWER,
 } = require("../helper-hardhat-config")
@@ -12,7 +12,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts()
   const chainId = network.config.chainId
 
-  if (!deploymentChains.includes(network.name)) {
+  if (!developmentChains.includes(network.name)) {
     return
   }
 

@@ -10,7 +10,7 @@ const networkConfig = {
   // 31337
 }
 
-const deploymentChains = ["hardhat", "localhost"]
+const developmentChains = ["hardhat", "localhost"]
 
 const DECIMALS = 8
 // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#numeric_separators
@@ -18,7 +18,7 @@ const INITIAL_ANSWER = 2000_00000000
 
 module.exports = {
   networkConfig,
-  deploymentChains,
+  developmentChains,
   DECIMALS,
   INITIAL_ANSWER,
 }
