@@ -112,6 +112,10 @@ contract FundMe {
      * @dev This implements price feeds as our library
      */
     function fund() public payable {
+        console.log(
+            "====== from FundMe.sol ====== msg.value.getConversionRate(s_priceFeed): %s",
+            msg.value.getConversionRate(s_priceFeed)
+        );
         require(
             msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
             "You need to spend more ETH!"
